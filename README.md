@@ -3,7 +3,7 @@ A driver for the TDK InvenSense ICM-42670 6-axis motion sensor.
 
 This library is made to work with the Odyssey Flight Computer (Coming Soon!). 
 
-I have based this library on this [Adafruit 9 axis](https://github.com/adafruit/Adafruit_LSM9DS0_Library) motion sensor library.
+I have based this library on this [Adafruit](https://github.com/adafruit/Adafruit_ADXL345) accelerometer library.
 ## Instalation
 
 To install add:
