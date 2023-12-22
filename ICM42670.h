@@ -1,7 +1,6 @@
 // Includes
 #include <Adafruit_I2CDevice.h>
-#include <Adafuit_Sensor.h>
-
+#include <Adafruit_Sensor.h>
 
 // I2C Address
 #define ICM42670_DEFAULT_ADDRESS (0x68)
