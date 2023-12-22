@@ -1,3 +1,8 @@
+// Includes
+#include <Adafruit_I2CDevice.h>
+#include <Adafuit_Sensor.h>
+
+
 // I2C Address
 #define ICM42670_DEFAULT_ADDRESS (0x68)
 
@@ -28,4 +33,16 @@
 // Calibration
 
 // Class
+class ICM42670 : public Adafruit_Sensor {
+    public:
+    ~ICM42670();
 
+    bool begin(uint8_t addr = ICM42670_DEFAULT_ADDRESS);
+    bool getEvent(sensors_event_t*);
+    void getSensor(adafruit_sensor_t);
+
+    // register r/w
+    uint8_t readRegister(unit8_t reg);
+    uint16_t read16(uint8_t reg);
+    void writeRegister(uint8_t reg, uint8_t value);
+}
