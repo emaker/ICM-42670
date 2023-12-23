@@ -7,8 +7,8 @@
 #include <Adafruit_Sensor.h>
 
 // I2C Address
-#define ICM42670_DEFAULT_ADDRESS (0x68)
-
+#define ICM42670_DEFAULT_ADDRESS    (0x68)
+#define ICM42670_DEFAULT_DEVICE_ID  (0x67)
 // Registers
 // Data
 #define ICM42670_REG_TEMP_DATA1     (0x09)
@@ -40,7 +40,8 @@ class ICM42670 : public Adafruit_Sensor {
     public:
         ~ICM42670();
 
-        bool begin(uint8_t addr = ICM42670_DEFAULT_ADDRESS);
+        bool begin(uint8_t addr = ICM42670_DEFAULT_ADDRESS, TwoWire *theWire);
+        uint8_t getDeviceID(void);
         bool getEvent(sensors_event_t*);
         void getSensor(adafruit_sensor_t);
 

@@ -7,6 +7,22 @@ ICM42670::~ICM42670() {
         delete i2c_dev;
 }
 
+
+bool ICM42670::begin(uint8_t addr, TwoWire *theWire) {
+    if (i2c_dev)
+        delete i2c_dev;
+    i2c_dev = new Adafruit_I2CDevice(addr, theWire);
+    if (!i2c_dev->begin())
+        return false;
+    
+    /* Check Connection */
+    uint8_t deviceid = getDeviceID();
+    if (deviceid != ICM42670_DEFAULT_DEVICE_ID) {
+       return false; 
+    }
+
+    return true;
+}
 void ICM42670::writeRegister(uint8_t reg, uint8_t value) {
     uint8_t buffer[2] = {reg, value};
     i2c_dev->write(buffer, 2);
