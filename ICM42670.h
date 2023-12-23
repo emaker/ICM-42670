@@ -1,3 +1,7 @@
+#ifndef ICM42670_H
+
+#define ICM42670_H
+
 // Includes
 #include <Adafruit_I2CDevice.h>
 #include <Adafruit_Sensor.h>
@@ -34,14 +38,17 @@
 // Class
 class ICM42670 : public Adafruit_Sensor {
     public:
-    ~ICM42670();
+        ~ICM42670();
 
-    bool begin(uint8_t addr = ICM42670_DEFAULT_ADDRESS);
-    bool getEvent(sensors_event_t*);
-    void getSensor(adafruit_sensor_t);
+        bool begin(uint8_t addr = ICM42670_DEFAULT_ADDRESS);
+        bool getEvent(sensors_event_t*);
+        void getSensor(adafruit_sensor_t);
 
-    // register r/w
-    uint8_t readRegister(unit8_t reg);
-    uint16_t read16(uint8_t reg);
-    void writeRegister(uint8_t reg, uint8_t value);
-}
+        // register r/w
+        uint8_t readRegister(uint8_t reg);
+        int16_t read16(uint8_t reg);
+        void writeRegister(uint8_t reg, uint8_t value);
+    private:
+        Adafruit_I2CDevice *i2c_dev = NULL;
+};
+#endif
