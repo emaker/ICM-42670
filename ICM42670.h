@@ -32,6 +32,7 @@
 #define ICM42670_REG_ACCEL_CONFIG0  (0x21)
 #define ICM42670_REG_ACCEL_CONFIG1  (0x24)
 #define ICM42670_REG_TEMP_CONFIG0   (0x22)
+#define WHO_AM_I_REG                (0x75)
 
 // Calibration
 

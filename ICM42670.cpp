@@ -23,6 +23,11 @@ bool ICM42670::begin(uint8_t addr, TwoWire *theWire) {
 
     return true;
 }
+
+uint8_t ICM42670::getDeviceID() {
+    return readRegister(WHO_AM_I_REG);
+}
+
 void ICM42670::writeRegister(uint8_t reg, uint8_t value) {
     uint8_t buffer[2] = {reg, value};
     i2c_dev->write(buffer, 2);

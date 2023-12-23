@@ -1,0 +1,21 @@
+{
+    "name": "ICM42670",
+    "version": "0.1.0",
+    "description": "A driver for the TDK InvenSense ICM42670",
+    "keywords": "ICM42670, ICM-42670-P, imu",
+    "repository":
+    {
+        "type": "git",
+        "url": "https://github.com/chopster44/ICM-42670.git"
+    },
+    "authors":
+    [
+        {
+            "name": "Oscar 'Chopster44' Giacalone",
+            "email": "oscar@chopster44.com",
+            "url": "https://chopster44.com",
+            "maintainer": true
+        }
+    ],
+    "license": "MIT"
+}
