@@ -45,12 +45,11 @@ class ICM42670 : public Adafruit_Sensor {
         uint8_t getDeviceID(void);
         bool getEvent(sensors_event_t*);
         void getSensor(adafruit_sensor_t);
-
+   private:
+        Adafruit_I2CDevice *i2c_dev = NULL;
         // register r/w
         uint8_t readRegister(uint8_t reg);
         int16_t read16(uint8_t reg);
         void writeRegister(uint8_t reg, uint8_t value);
-    private:
-        Adafruit_I2CDevice *i2c_dev = NULL;
 };
 #endif
