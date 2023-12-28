@@ -15,11 +15,11 @@ bool ICM42670::begin(uint8_t addr, TwoWire *theWire) {
     if (!i2c_dev->begin())
         return false;
     
-    /* Check Connection */
-    uint8_t deviceid = getDeviceID();
-    if (deviceid != ICM42670_DEFAULT_DEVICE_ID) {
-       return false; 
-    }
+    // /* Check Connection */
+    // uint8_t deviceid = getDeviceID();
+    // if (deviceid != ICM42670_DEFAULT_DEVICE_ID) {
+    //    return false; 
+    // }
 
     return true;
 }
@@ -45,4 +45,10 @@ int16_t ICM42670::read16(uint8_t reg) {
     return uint16_t(buffer[1]) << 8 | uint16_t(buffer[0]);  
 }
 
+bool ICM42670::getEvent(sensors_event_t *event) {
+    return false;
+}
 
+void ICM42670::getSensor(adafruit_sensor_t *sensor) {
+    int i = 1;
+}

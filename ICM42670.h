@@ -41,10 +41,10 @@ class ICM42670 : public Adafruit_Sensor {
     public:
         ~ICM42670();
 
-        bool begin(uint8_t addr = ICM42670_DEFAULT_ADDRESS, TwoWire *theWire);
+        bool begin(uint8_t addr = ICM42670_DEFAULT_ADDRESS, TwoWire *theWire = &Wire);
         uint8_t getDeviceID(void);
         bool getEvent(sensors_event_t*);
-        void getSensor(adafruit_sensor_t);
+        void getSensor(adafruit_sensor_t*);
    private:
         Adafruit_I2CDevice *i2c_dev = NULL;
         // register r/w
