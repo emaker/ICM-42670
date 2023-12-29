@@ -2,13 +2,12 @@
 
 #define ICM42670_H
 
-// Includes
-#include <Adafruit_I2CDevice.h>
-#include <Adafruit_Sensor.h>
+#include <Arduino.h>
+#include <Wire.h>
 
 // I2C Address
 #define ICM42670_DEFAULT_ADDRESS    (0x68)
-#define ICM42670_DEFAULT_DEVICE_ID  (0x67)
+#define ICM42670_WHO_AM_I  (0x67)
 // Registers
 // Data
 #define ICM42670_REG_TEMP_DATA1     (0x09)
@@ -37,19 +36,18 @@
 // Calibration
 
 // Class
-class ICM42670 : public Adafruit_Sensor {
-    public:
-        ~ICM42670();
 
+class ICM42670 {
+    public:
         bool begin(uint8_t addr = ICM42670_DEFAULT_ADDRESS, TwoWire *theWire = &Wire);
-        uint8_t getDeviceID(void);
-        bool getEvent(sensors_event_t*);
-        void getSensor(adafruit_sensor_t*);
-   private:
-        Adafruit_I2CDevice *i2c_dev = NULL;
-        // register r/w
-        uint8_t readRegister(uint8_t reg);
-        int16_t read16(uint8_t reg);
-        void writeRegister(uint8_t reg, uint8_t value);
+        uint8_t whoami();
+    private:
+        TwoWire *_wire;
+        uint8_t _addr;
+        bool writeToRegister(uint8_t reg, uint8_t value);
+        bool writeRegister(uint8_t reg);
+        bool readRegister(uint8_t reg, uint8_t *buffer);
+        // uint16_t read2Reg(uint8_t reg); 
 };
+
 #endif
