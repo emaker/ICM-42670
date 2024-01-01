@@ -17,5 +17,6 @@
             "maintainer": true
         }
     ],
-    "license": "MIT"
+    "license": "MIT",
+    "headers": "ICM42670.h"
 }
