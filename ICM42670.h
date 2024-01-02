@@ -32,8 +32,29 @@
 #define ICM42670_REG_ACCEL_CONFIG1  (0x24)
 #define ICM42670_REG_TEMP_CONFIG0   (0x22)
 #define WHO_AM_I_REG                (0x75)
+#define ICM42670_REG_PWR_MGMT0      (0x1F)
 
 // Calibration
+// GYRO
+#define ICM42670_CONFIG_GYRO_2k_DPS     (0b00000000)
+#define ICM42670_CONFIG_GYRO_1k_DPS     (0b00100000)
+#define ICM42670_CONFIG_GYRO_500_DPS    (0b01000000)
+#define ICM42670_CONFIG_GYRO_250_DPS    (0b01100000)
+// ACCEL
+#define ICM42670_CONFIG_ACCEL_16_G      (0b00000000)
+#define ICM42670_CONFIG_ACCEL_8_G       (0b00100000)
+#define ICM42670_CONFIG_ACCEL_4_G       (0b01000000)
+#define ICM42670_CONFIG_ACCEL_2_G       (0b01100000)
+// RATE
+#define ICM42670_CONFIG_RATE_1p6_kHz    (0b00000101)
+#define ICM42670_CONFIG_RATE_800_Hz     (0b00000110)
+#define ICM42670_CONFIG_RATE_400_Hz     (0b00000111)
+#define ICM42670_CONFIG_RATE_200_Hz     (0b00001000)
+#define ICM42670_CONFIG_RATE_100_Hz     (0b00001001)
+#define ICM42670_CONFIG_RATE_50_Hz      (0b00001010)
+#define ICM42670_CONFIG_RATE_25_Hz      (0b00001011)
+#define ICM42670_CONFIG_RATE_12p5_Hz    (0b00001100)
+
 
 // Class
 
@@ -41,7 +62,8 @@ class ICM42670 {
     public:
         bool begin(uint8_t addr = ICM42670_DEFAULT_ADDRESS, TwoWire *theWire = &Wire);
         uint8_t whoami();
-        bool startAccel(uint16_t odr, uint16_t fsr);
+        bool startAccel(uint8_t scale, uint8_t freq);
+        bool startGyro(uint8_t rate, uint8_t freq);
     private:
         TwoWire *_wire;
         uint8_t _addr;
