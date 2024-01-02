@@ -62,13 +62,14 @@ class ICM42670 {
     public:
         bool begin(uint8_t addr = ICM42670_DEFAULT_ADDRESS, TwoWire *theWire = &Wire);
         uint8_t whoami();
+        bool sensorConf();
         bool startAccel(uint8_t scale, uint8_t freq);
         bool startGyro(uint8_t rate, uint8_t freq);
     private:
         TwoWire *_wire;
         uint8_t _addr;
         bool write(uint8_t reg, uint8_t *buffer, uint8_t len);
-        bool readRegister(uint8_t reg, uint8_t *buffer, uint8_t len);
+        bool readRegister(uint8_t reg, uint8_t *buffer, uint8_t len = 1);
         // uint16_t read2Reg(uint8_t reg); 
 };
 
