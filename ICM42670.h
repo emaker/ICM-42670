@@ -55,6 +55,11 @@
 #define ICM42670_CONFIG_RATE_25_Hz      (0b00001011)
 #define ICM42670_CONFIG_RATE_12p5_Hz    (0b00001100)
 
+typedef struct {
+    uint16_t x;
+    uint16_t y;
+    uint16_t z;
+} sensorXYZ;
 
 // Class
 
@@ -65,6 +70,9 @@ class ICM42670 {
         bool sensorConf();
         bool startAccel(uint8_t scale, uint8_t freq);
         bool startGyro(uint8_t rate, uint8_t freq);
+        sensorXYZ getAccel();
+        sensorXYZ getGyro();
+        uint16_t getTemp();
     private:
         TwoWire *_wire;
         uint8_t _addr;

@@ -52,6 +52,44 @@ bool ICM42670::startGyro(uint8_t rate, uint8_t freq) {
     return write(ICM42670_REG_GYRO_CONFIG0, &gyroConf, 1);
 }
 
+sensorXYZ ICM42670::getAccel() {
+    uint8_t readBuffer[1];
+    sensorXYZ sensor = {0,0,0};
+    // read x1 reg
+    // shift <<
+    // read x0 reg
+    if (!readRegister(ICM42670_REG_ACCEL_DATA_X1, readBuffer))
+        return sensor;
+    sensor.x = readBuffer[0] << 8;
+    if (!readRegister(ICM42670_REG_ACCEL_DATA_X0, readBuffer))
+        return sensor;
+    sensor.x |= readBuffer[0];
+    // read y reg, -''-
+    if (!readRegister(ICM42670_REG_ACCEL_DATA_Y1, readBuffer))
+        return sensor;
+    sensor.y = readBuffer[0] << 8;
+    if (!readRegister(ICM42670_REG_ACCEL_DATA_Y0, readBuffer))
+        return sensor;
+    sensor.y |= readBuffer[0];
+    // read z reg, -''-
+    if (!readRegister(ICM42670_REG_ACCEL_DATA_Z1, readBuffer))
+        return sensor;
+    sensor.z = readBuffer[0] << 8;
+    if (!readRegister(ICM42670_REG_ACCEL_DATA_Z0, readBuffer))
+        return sensor; 
+    sensor.z |= readBuffer[0];
+    // return sensorXYZ
+    return sensor;
+}
+
+// sensorXYZ ICM42670::getGyro() {
+
+// }
+
+// uint16_t ICM42670::getTemp() {
+
+// }
+
 bool ICM42670::write(uint8_t reg, uint8_t *buffer, uint8_t len) {
     _wire->beginTransmission(_addr);
     _wire->write(reg);
@@ -77,12 +115,9 @@ bool ICM42670::readRegister(uint8_t reg, uint8_t *buffer, uint8_t len) {
         Serial.println("No data");
         return false;
     }    
-    Serial.println("Here?!"); 
     for (uint8_t i = 0; i < len; i++) {
-        Serial.println("Here?");    
         buffer[i] = _wire->read();
     }
-    Serial.println("Here!");
     return true;
 
 }
