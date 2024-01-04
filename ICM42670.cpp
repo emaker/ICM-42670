@@ -160,9 +160,23 @@ sensorXYZ ICM42670::getGyro() {
     return sensor;
 }
 
-// uint16_t ICM42670::getTemp() {
+int16_t ICM42670::getTemp() {
+    uint8_t readBuffer[1];
+    int16_t sensor = 0;
+    int16_t raw = 0;
+    // read raw
+    if (!readRegister(ICM42670_REG_TEMP_DATA1, readBuffer))
+        return sensor;
+    raw = readBuffer[0] << 8;
+    if (!readRegister(ICM42670_REG_TEMP_DATA0, readBuffer))
+        return sensor;
+    raw |= readBuffer[0];
 
-// }
+    // convert to C
+    sensor = (raw / 128) + 25;
+
+    return sensor;
+}
 
 bool ICM42670::write(uint8_t reg, uint8_t *buffer, uint8_t len) {
     _wire->beginTransmission(_addr);
