@@ -10,7 +10,7 @@ To install add:
 ## LICENSE
 ```
     eMAKER ICM-42670 driver
-    Copyright (C) 2023-2024  chopster44
+    Copyright (C) 2023-2024  chopster44 for eMAKER Ltd
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
