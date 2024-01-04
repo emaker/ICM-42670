@@ -27,6 +27,23 @@ bool ICM42670::sensorConf() {
 }
 
 bool ICM42670::startAccel(uint8_t scale, uint8_t freq) {
+    switch (scale)
+    {
+    case ICM42670_CONFIG_ACCEL_16_G:
+        accelCalib = 2048;
+        break;
+    case ICM42670_CONFIG_ACCEL_8_G:
+        accelCalib = 4096;
+        break;
+    case ICM42670_CONFIG_ACCEL_4_G:
+        accelCalib = 8192;
+        break;
+    case ICM42670_CONFIG_ACCEL_2_G:
+        accelCalib = 16384;
+        break;
+    default:
+        break;
+    }
     uint8_t accelConf = scale | freq;
     // check if these settings are already stored
     uint8_t accelConfOld;
@@ -40,7 +57,25 @@ bool ICM42670::startAccel(uint8_t scale, uint8_t freq) {
     return true;    
 }
 
-bool ICM42670::startGyro(uint8_t rate, uint8_t freq) {
+bool ICM42670::startGyro(uint8_t rate, uint8_t freq) { 
+    switch (rate)
+    {
+    case ICM42670_CONFIG_GYRO_2k_DPS:
+        gyroCalib = 16.4;
+        break;
+    case ICM42670_CONFIG_GYRO_1k_DPS:
+        gyroCalib = 32.8;
+        break;
+    case ICM42670_CONFIG_GYRO_500_DPS:
+        gyroCalib = 65.5;
+        break;
+    case ICM42670_CONFIG_GYRO_250_DPS:
+        gyroCalib = 131;
+        break;
+    
+    default:
+        break;
+    }
     uint8_t gyroConf = rate | freq;
     // check if theses settings are alreay stored
     uint8_t gyroConfOld;
@@ -55,30 +90,34 @@ bool ICM42670::startGyro(uint8_t rate, uint8_t freq) {
 sensorXYZ ICM42670::getAccel() {
     uint8_t readBuffer[1];
     sensorXYZ sensor = {0,0,0};
+    sensorXYZ raw = {0,0,0};
     // read x1 reg
     // shift <<
     // read x0 reg
     if (!readRegister(ICM42670_REG_ACCEL_DATA_X1, readBuffer))
         return sensor;
-    sensor.x = readBuffer[0] << 8;
+    raw.x = readBuffer[0] << 8;
     if (!readRegister(ICM42670_REG_ACCEL_DATA_X0, readBuffer))
         return sensor;
-    sensor.x |= readBuffer[0];
+    raw.x |= readBuffer[0];
     // read y reg, -''-
     if (!readRegister(ICM42670_REG_ACCEL_DATA_Y1, readBuffer))
         return sensor;
-    sensor.y = readBuffer[0] << 8;
+    raw.y = readBuffer[0] << 8;
     if (!readRegister(ICM42670_REG_ACCEL_DATA_Y0, readBuffer))
         return sensor;
-    sensor.y |= readBuffer[0];
+    raw.y |= readBuffer[0];
     // read z reg, -''-
     if (!readRegister(ICM42670_REG_ACCEL_DATA_Z1, readBuffer))
         return sensor;
-    sensor.z = readBuffer[0] << 8;
+    raw.z = readBuffer[0] << 8;
     if (!readRegister(ICM42670_REG_ACCEL_DATA_Z0, readBuffer))
         return sensor; 
-    sensor.z |= readBuffer[0];
+    raw.z |= readBuffer[0];
     // return sensorXYZ
+    sensor.x = (raw.x * 1000) / accelCalib;
+    sensor.y = (raw.y * 1000) / accelCalib;
+    sensor.z = (raw.z * 1000) / accelCalib;
     return sensor;
 }
 
