@@ -77,7 +77,7 @@ class ICM42670 {
         bool startAccel(uint8_t scale, uint8_t freq);
         bool startGyro(uint8_t rate, uint8_t freq);
         sensorXYZ getAccel();
-        sensorFloatXYZ getGyro();
+        sensorXYZ getGyro();
         uint16_t getTemp();
     private:
         TwoWire *_wire;

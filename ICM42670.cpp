@@ -84,7 +84,10 @@ bool ICM42670::startGyro(uint8_t rate, uint8_t freq) {
     if (gyroConfOld == gyroConf)
         return true;
     // write new conf
-    return write(ICM42670_REG_GYRO_CONFIG0, &gyroConf, 1);
+    bool res = write(ICM42670_REG_GYRO_CONFIG0, &gyroConf, 1);
+    // gyro needs a few millis to reconfigure
+    delay(20); 
+    return res;
 }
 
 sensorXYZ ICM42670::getAccel() {
@@ -121,9 +124,41 @@ sensorXYZ ICM42670::getAccel() {
     return sensor;
 }
 
-// sensorXYZ ICM42670::getGyro() {
+sensorXYZ ICM42670::getGyro() {
+    uint8_t readBuffer[1];
+    sensorXYZ sensor = {0,0,0};
+    sensorXYZ raw = {0,0,0};
 
-// }
+    // read x
+    if (!readRegister(ICM42670_REG_GYRO_DATA_X1, readBuffer))
+        return sensor;
+    raw.x = readBuffer[0] << 8;
+    if (!readRegister(ICM42670_REG_GYRO_DATA_X0, readBuffer))
+        return sensor;
+    raw.x |= readBuffer[0];
+    
+    // read y
+    if (!readRegister(ICM42670_REG_GYRO_DATA_Y1, readBuffer))
+        return sensor;
+    raw.y = readBuffer[0] << 8;
+    if (!readRegister(ICM42670_REG_GYRO_DATA_Y0, readBuffer))
+        return sensor;
+    raw.y |= readBuffer[0];
+
+    // read z
+    if (!readRegister(ICM42670_REG_GYRO_DATA_Z1, readBuffer))
+        return sensor;
+    raw.z = readBuffer[0] << 8;
+    if (!readRegister(ICM42670_REG_GYRO_DATA_Z0, readBuffer))
+        return sensor;
+    raw.z |= readBuffer[0];
+
+    // convert to milli degree
+    sensor.x = (raw.x * 1000) / gyroCalib;
+    sensor.y = (raw.y * 1000) / gyroCalib;
+    sensor.z = (raw.z * 1000) / gyroCalib;
+    return sensor;
+}
 
 // uint16_t ICM42670::getTemp() {
 
