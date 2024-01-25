@@ -23,7 +23,7 @@ bool ICM42670::begin(uint8_t addr, TwoWire *theWire) {
     _wire = theWire; 
     _addr = addr;
     uint8_t whoAmI = whoami();
-    Serial.println(whoAmI);
+    // Serial.println(whoAmI);
     if (whoAmI == ICM42670_WHO_AM_I) {
         return true;
     } else {
